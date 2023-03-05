@@ -3,7 +3,7 @@ import DayListItem from "components/DayListItem";
 
 export default function DayList(props) {
 
-  const parsedDayListItems = props.days.map((day) =>
+  const dayListClass = props.days.map((day) =>
 
     <DayListItem
       key={day.id}
@@ -15,6 +15,6 @@ export default function DayList(props) {
   );
 
   return (
-    <ul>{parsedDayListItems}</ul>
+    <ul>{dayListClass}</ul>
   );
 };
