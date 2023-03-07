@@ -4,14 +4,15 @@ import "components/Application.scss";
 import "components/Appointment";
 import Appointment from "components/Appointment";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 export default function Application(props) {
   
   const [state, setState] = useState({
     day: "",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
   
   useEffect(() => {
@@ -26,17 +27,61 @@ export default function Application(props) {
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   
+  const interviewers = getInterviewersForDay(state, state.day);
+  
   const schedule = dailyAppointments.map(appointment => {
+    
     const interview = getInterview(state, appointment.interview);
+    
+    function bookInterview(id, interview) {
+      console.log(id, interview);
 
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview }).then(() => {
+        setState({
+        ...state,
+        appointments
+        });
+      });
+    }
+    function cancelInterview(id) {
+
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      }
+      return axios.delete(`http://localhost:8001/api/appointments/${id}`, appointment)
+        .then(() => {
+          setState({
+            ...state,
+            appointments
+          });
+        });
+    }
     return (
       <Appointment 
         key={appointment.id} 
         id={appointment.id}
         time={appointment.time}
         interview={interview} 
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview} 
       />
-    )
+    );
   });
   
   const setDay = day => setState({ ...state, day });
