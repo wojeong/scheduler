@@ -9,6 +9,7 @@ import Confirm from "./Confirm";
 import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 
+//an Index file where all the appointment components gets called and ran accordingly
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
@@ -24,6 +25,10 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
   
+  /* Function thats called when saved button is pressed for the interview section
+     Name of Interviewee and Interviwer must be selected.
+     Trasition to a saving-loading screen. and change the sate to SHOW
+  */
   function save (name, interviewer) {
     const interview = {
       student: name,
@@ -37,7 +42,10 @@ export default function Appointment(props) {
       .then(() => {transition(SHOW)})
       .catch(error => {transition(ERROR_SAVE, true)});
   }
-
+  /* Function thats called when delete button is pressed an Appointment
+     Transition to DELETE, where
+     Trasition to a saving-loading screen. and change the state to EMPTY
+  */
   function destroy () {
     transition(DELETING, true);
     
@@ -46,7 +54,10 @@ export default function Appointment(props) {
       .then(() => transition(EMPTY))
       .catch(error => transition(ERROR_DELETE, true));
   }
-
+  /* Function thats called when edit button is pressed for already existing appointment
+     New Name and Interviewer can be submitted
+     Trasition to a saving-loading screen. and change the sate to EDIT
+  */
   function edit (name, interviewer) {
     const interview = {
       student: name,
@@ -54,9 +65,7 @@ export default function Appointment(props) {
     };
     
     props.bookInterview(props.id, interview)
-    .then(() => {
-      transition(EDIT);
-    });
+      .then(() => { transition(EDIT);});
   }
 
   return (

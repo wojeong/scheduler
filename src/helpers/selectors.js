@@ -1,3 +1,6 @@
+//Reusuable Helper Functions
+
+//Function that returns an array of all the appointments for the day
 export function getAppointmentsForDay(state, day) {
   const theDay = state.days.filter(days => days.name === day);
   
@@ -12,6 +15,7 @@ export function getAppointmentsForDay(state, day) {
   return appointments;
 }
 
+//Check if the section is filled.
 export function getInterview(state, interview) {
   if (!interview) {
     return null;
@@ -20,6 +24,7 @@ export function getInterview(state, interview) {
   return {...interview, interviewer: interviewerData};
 }
 
+//Get the interviewer based on the day
 export function getInterviewersForDay(state, day) {
   const theDay = state.days.filter(days => days.name === day);
   const interviewers = [];
@@ -32,14 +37,7 @@ export function getInterviewersForDay(state, day) {
   return interviewers;
 }
 
-export function decrementSpots(state) {
-
-  const remainSpots = [];
-
-  
-  return remainSpots;
-};
-
+//A fucntion to calculate remainging spots for the day
 export function updateSpots(state, appointments) {
   const daysObj = state.days.find((day) => day.name === state.day);
   let spots = 0;
