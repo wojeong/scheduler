@@ -8,6 +8,13 @@ React handled the client-side actions while PostgreSQL was used to manage the da
 
 Install dependencies with `npm install`.
 
+## Local API Server Setup
+Clone and follow the README.md in the repository below to run scheduler app locally.
+
+```sh
+git clone https://github.com/jmphair/scheduler-api
+```
+
 ## Running Webpack Development Server
 
 ```sh
